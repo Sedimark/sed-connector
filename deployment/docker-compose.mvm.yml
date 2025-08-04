@@ -1,0 +1,165 @@
+name: sedimark-mvd
+
+services:
+
+  ### PARTICIPANT 1 - PROVIDER
+
+  provider-dlt-booth:
+    container_name: cnt-provider-dlt-booth
+    image: ghcr.io/sedimark/dlt-booth:latest
+    restart: unless-stopped
+    depends_on:
+      provider-postgres:
+        condition: service_healthy
+    ports:
+      - "8085:8085"
+    env_file:
+#      - ./assets/env/provider_persistence.env # Not needed, injected by docker-compose.yml
+      - ./assets/env/provider_dltbooth.env
+      - ./assets/env/sed_baseline_infrastructure.env
+    environment:
+      DB_HOST: provider-postgres
+      DB_PORT: 5432
+      DB_NAME: ${SED_PERSISTENCE_DLTBOOTH_DATABASE}
+      DB_USER: ${SED_PERSISTENCE_DLTBOOTH_USER}
+      DB_PASSWORD: ${SED_PERSISTENCE_DLTBOOTH_PASSWORD}
+      DB_MAX_POOL_SIZE: 16
+    volumes:
+      - "./assets/provider/dlt-booth:/data"
+    logging:
+      driver: local
+    networks:
+      default:
+        ipv4_address: 172.23.0.20
+    profiles:
+      - onboarding
+#      - operation
+      - marketplace
+
+  provider-connector-controlplane:
+    container_name: cnt-provider-connector-cp
+    image: sed-conn-controlplane:0.1
+    pull_policy: never
+    depends_on:
+      provider-postgres:
+        condition: service_healthy
+    env_file:
+#      - ./assets/env/provider_persistence.env # Not needed, injected by docker-compose.yml
+      - ./assets/env/provider_connector.env
+    environment:
+      EDC_DATASOURCE_DEFAULT_URL: jdbc:postgresql://provider-postgres:5432/${SED_PERSISTENCE_CONNECTOR_DATABASE}
+      EDC_DATASOURCE_DEFAULT_USER: ${SED_PERSISTENCE_CONNECTOR_USER}
+      EDC_DATASOURCE_DEFAULT_PASSWORD: ${SED_PERSISTENCE_CONNECTOR_PASSWORD}
+      EDC_SQL_SCHEMA_AUTOCREATE: true
+#      LOG_LEVEL: debug
+    healthcheck:
+      test: ["CMD", "curl", "--fail http://localhost:$$WEB_HTTP_PORT$$WEB_HTTP_PATH}/check/health"]
+      start_period: 30s
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    logging:
+      driver: local
+    networks:
+      default:
+        ipv4_address: 172.23.0.10
+    profiles:
+      - operation
+      - marketplace
+
+
+  provider-connector-dataplane:
+    container_name: cnt-provider-connector-dp
+    image: sed-conn-dataplane:0.1
+    pull_policy: never
+    depends_on:
+      provider-postgres:
+        condition: service_healthy
+    env_file:
+#      - ./assets/env/provider_persistence.env # Not needed, injected by docker-compose.yml
+      - ./assets/env/provider_connector.env
+    environment:
+      EDC_DATASOURCE_DEFAULT_URL: jdbc:postgresql://provider-postgres:5432/${SED_PERSISTENCE_CONNECTOR_DATABASE}
+      EDC_DATASOURCE_DEFAULT_USER: ${SED_PERSISTENCE_CONNECTOR_USER}
+      EDC_DATASOURCE_DEFAULT_PASSWORD: ${SED_PERSISTENCE_CONNECTOR_PASSWORD}
+      EDC_SQL_SCHEMA_AUTOCREATE: true
+      LOG_LEVEL: debug
+    healthcheck:
+      test: ["CMD", "curl", "--fail http://localhost:$$WEB_HTTP_PORT$$WEB_HTTP_PATH/check/health"]
+      start_period: 30s
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    logging:
+      driver: local
+    networks:
+      default:
+        ipv4_address: 172.23.0.11
+    profiles:
+      - operation
+      - marketplace
+
+
+  provider-verifier:
+    container_name: cnt-provider-verifier
+    image: ghcr.io/cybersecurity-links/mediterraneus-verifier:0.0.2
+    restart: unless-stopped
+    ports:
+      - "1235:1235"
+    env_file:
+      - ./assets/env/provider_verifier.env
+      - ./assets/env/sed_baseline_infrastructure.env
+    logging:
+      driver: local
+    networks:
+      default:
+        ipv4_address: 172.23.0.40
+    profiles:
+#      - operation
+      - marketplace
+
+
+  provider-postgres:
+    container_name: cnt-provider-postgres
+    image: postgres:alpine
+    env_file:
+      - ./assets/env/provider_persistence.env
+    environment:
+      POSTGRES_DB: ${SED_PERSISTENCE_POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${SED_PERSISTENCE_POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${SED_PERSISTENCE_POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+      POSTGRES_LOGGING_COLLECTOR: 'on'
+      POSTGRES_LOG_MIN_MESSAGES: 'DEBUG1'
+    volumes:
+      - provider-postgres-vol:/data/postgres
+      - ./assets/initdb:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      start_period: 30s
+      timeout: 10s
+      interval: 10s
+      retries: 5
+    logging:
+      driver: local
+    networks:
+      default:
+        ipv4_address: 172.23.0.30
+    profiles:
+      - onboarding
+      - operation
+      - marketplace
+
+networks:
+  default:
+    name: sedimark-toolbox-mvm
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.23.0.0/24"
+
+
+volumes:
+  provider-postgres-vol:

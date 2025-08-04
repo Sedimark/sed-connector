@@ -1,0 +1,33 @@
+[metadata]
+format.version = "1.1"
+
+[versions]
+edc = "0.11.1"
+
+[libraries]
+# SPI modules
+edc-spi-core = { module = "org.eclipse.edc:core-spi", version.ref = "edc" }
+
+# BOM modules
+edc-bom-controlplane-base = { module = "org.eclipse.edc:controlplane-base-bom", version.ref = "edc" }
+edc-bom-controlplane-sql = { module = "org.eclipse.edc:controlplane-feature-sql-bom", version.ref = "edc" }
+edc-bom-dataplane = { module = "org.eclipse.edc:dataplane-base-bom", version.ref = "edc" }
+edc-bom-dataplane-sql = { module = "org.eclipse.edc:dataplane-feature-sql-bom", version.ref = "edc" }
+
+# upstream EDC extension dependencies
+edc-ext-controlplane-api = { module = "org.eclipse.edc:control-plane-api", version.ref = "edc" }
+edc-policy-monitor-core = { module = "org.eclipse.edc:policy-monitor-core", version.ref = "edc" }
+edc-ext-policy-monitor-store-sql = { module = "org.eclipse.edc:policy-monitor-store-sql", version.ref = "edc" }
+
+edc-iam-mock = { module = "org.eclipse.edc:iam-mock", version.ref = "edc" }
+edc-ext-did = { module = "org.eclipse.edc:decentralized-identity", version.ref = "edc" }
+edc-ext-jwtvc = { module = "org.eclipse.edc:jwt-verifiable-credentials", version.ref = "edc" }
+edc-ext-ldpvc = { module = "org.eclipse.edc:ldp-verifiable-credentials", version.ref = "edc" }
+
+edc-ext-transfer-pull-http-dynamicreceiver = { module = "org.eclipse.edc:transfer-pull-http-dynamic-receiver", version.ref = "edc" }
+edc-ext-validator-dataaddress-http-data = { module = "org.eclipse.edc:validator-data-address-http-data", version.ref = "edc" }
+
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version = "8.3.6" }
+docker = { id = "com.bmuschko.docker-remote-api", version = "9.4.0" }

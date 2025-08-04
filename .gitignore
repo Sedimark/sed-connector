@@ -1,4 +1,30 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Secrets
+*.stronghold
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Ignore IDE specific files
+.idea
+.vs
+.vscode
+
+# Ignore Gradle project-specific cache directory
 .gradle
+
+# Ignore Gradle build output directory
 **/build/
 !**/src/**/build/
 

@@ -1,0 +1,11 @@
+# This trick is needed so env_file content is used for interpolation in docker-compose.mvm.yml
+# "environment:" blocks. Otherwise, precedence order for "env_var:" block (4) goes after "environment:" (3)
+# and it does not behave as it would be expected. This way, "environment:" is evaluated before evaluating
+# "env_file:" and no env vars exist to be interpolated. If env_file(s) is/are provided through
+# command line (docker compose --env_file) then the precedence order is 2 instead of 4.
+# See https://github.com/docker/compose/issues/3435
+
+include:
+  - path: docker-compose.mvm.yml
+    env_file:
+      - ./assets/env/provider_persistence.env
