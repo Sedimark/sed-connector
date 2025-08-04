@@ -18,12 +18,19 @@ plugins {
 }
 
 dependencies {
+    println("This runtime uses \"seed-vault extension\" for preconfiguring the Self-signed token generation. To be replaced by DID validation.")
+    runtimeOnly(project(":extensions:seed-vault"))
+
     runtimeOnly(libs.edc.bom.dataplane)
 
     // Persistence
     runtimeOnly(libs.edc.bom.dataplane.sql)
 
-//    runtimeOnly(libs.edc.vault.hashicorp)
+    // Secrets
+    runtimeOnly(libs.edc.ext.vault.hashicorp)
+
+    // MinIO
+    runtimeOnly(libs.edc.ext.dataplane.aws.s3)
 
 }
 

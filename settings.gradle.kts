@@ -37,15 +37,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "sed-connector"
 
-
 include(":runtimes:controlplane")
 include(":runtimes:dataplane")
 
 include(":extensions:banner-extension")
+include(":extensions:identity-did-iota-sed")
 
+include(":extensions:agreement-reached")
+include(":extensions:seed-vault")
 
 // module project custom names
 project(":runtimes:controlplane").name = "sed-conn-controlplane"
 project(":runtimes:dataplane").name = "sed-conn-dataplane"
-
-

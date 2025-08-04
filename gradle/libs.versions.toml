@@ -3,6 +3,7 @@ format.version = "1.1"
 
 [versions]
 edc = "0.11.1"
+gson = "2.10"
 
 [libraries]
 # SPI modules
@@ -27,6 +28,13 @@ edc-ext-ldpvc = { module = "org.eclipse.edc:ldp-verifiable-credentials", version
 edc-ext-transfer-pull-http-dynamicreceiver = { module = "org.eclipse.edc:transfer-pull-http-dynamic-receiver", version.ref = "edc" }
 edc-ext-validator-dataaddress-http-data = { module = "org.eclipse.edc:validator-data-address-http-data", version.ref = "edc" }
 
+edc-spi-controlplane = { module = "org.eclipse.edc:control-plane-spi", version.ref = "edc" }
+edc-spi-http = { module = "org.eclipse.edc:http-spi", version.ref = "edc" }
+edc-ext-vault-hashicorp = { module = "org.eclipse.edc:vault-hashicorp", version.ref = "edc" }
+edc-ext-dataplane-aws-s3 = { module = "org.eclipse.edc.aws:data-plane-aws-s3", version.ref = "edc" }
+
+# Other external libs
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version = "8.3.6" }

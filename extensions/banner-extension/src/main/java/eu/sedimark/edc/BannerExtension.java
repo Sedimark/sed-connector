@@ -20,11 +20,10 @@ import org.eclipse.edc.spi.system.ServiceExtensionContext;
 
 import java.io.IOException;
 
-import static eu.sedimark.edc.BannerExtension.NAME;
 
-@Extension(NAME)
+@Extension(value = BannerExtension.NAME)
 public class BannerExtension implements ServiceExtension {
-    public static final String NAME = " SEDIMARK Banner Extension";
+    public static final String NAME = "SEDIMARK Banner Extension";
 
     private Monitor monitor;
 
@@ -36,6 +35,7 @@ public class BannerExtension implements ServiceExtension {
     @Override
     public void initialize(ServiceExtensionContext context) {
         monitor = context.getMonitor().withPrefix("SEDIMARK");
+
         monitor.info("Welcome to SEDIMARK. You can visit https://www.sedimark.eu for more info!!");
 
         try (var banner = getClass().getClassLoader().getResourceAsStream("banner.txt")) {

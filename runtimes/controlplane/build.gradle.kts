@@ -22,8 +22,14 @@ dependencies {
 //    runtimeOnly(libs.bundles.sed.connector.controlplane)
 
     runtimeOnly(project(":extensions:banner-extension"))
+    runtimeOnly(project(":extensions:identity-did-iota-sed"))
 
-    runtimeOnly(libs.edc.bom.controlplane.base)
+    runtimeOnly(libs.edc.bom.controlplane.base) {
+        // Remove auth-tokenbased as it is injected by default in v0.11.1. Thus, it requires x-api-key header for proper
+        // authentication with edc.api.auth.key value. This has been fixed from v0.12 onwards, where it needs to be
+        // configured for each web context.
+        exclude(group = "org.eclipse.edc", module = "auth-tokenbased")
+    }
     runtimeOnly(libs.edc.ext.controlplane.api) // already included in controlplane.base from v0.12
     runtimeOnly(libs.edc.policy.monitor.core) // already included in controlplane.base from v0.12
 
