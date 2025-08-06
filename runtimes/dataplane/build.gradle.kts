@@ -27,7 +27,7 @@ dependencies {
     runtimeOnly(libs.edc.bom.dataplane.sql)
 
     // Secrets
-    runtimeOnly(libs.edc.ext.vault.hashicorp)
+//    runtimeOnly(libs.edc.ext.vault.hashicorp)
 
     // MinIO
     runtimeOnly(libs.edc.ext.dataplane.aws.s3)

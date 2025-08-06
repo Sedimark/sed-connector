@@ -24,6 +24,8 @@ plugins {
 val annotationProcessorVersion: String by project
 //val metaModelVersion: String by project
 
+val githubContainerRepository: String by project
+
 buildscript {
     dependencies {
         val edcGradlePluginsVersion: String by project
@@ -83,6 +85,8 @@ subprojects {
                 dockerFile.set(file("$dockerContextDir/src/main/docker/Dockerfile"))
                 images.add("${project.name}:${project.version}")
                 images.add("${project.name}:latest")
+                images.add("${githubContainerRepository}/${project.name}:${project.version}")
+                images.add("${githubContainerRepository}/${project.name}:latest")
                 // specify platform with the -Dplatform flag:
                 if (System.getProperty("platform") != null)
                     platform.set(System.getProperty("platform"))

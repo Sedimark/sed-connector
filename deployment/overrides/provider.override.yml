@@ -1,0 +1,33 @@
+name: provider
+
+services:
+  participant-dlt-booth:
+    volumes:
+      - "./assets/provider/dlt-booth:/data"
+
+  participant-connector-controlplane:
+    environment:
+      LOG_LEVEL: info
+    networks:
+      participant_network:
+        ipv4_address: "${SUBNET_PREFIX}.10"
+      public_shared_network:
+        ipv4_address: "${SHARED_SUBNET_PREFIX}.110"
+        aliases:
+          - ${CONTROLPLANE_SERVICE_ALIAS}
+
+  participant-connector-dataplane:
+    environment:
+      LOG_LEVEL: info
+    networks:
+      participant_network:
+        ipv4_address: "${SUBNET_PREFIX}.11"
+      public_shared_network:
+        ipv4_address: "${SHARED_SUBNET_PREFIX}.111"
+        aliases:
+          - ${DATAPLANE_SERVICE_ALIAS}
+
+# Create the network manually with ''docker network create --subnet=192.168.23.0/24 public_shared_network''
+networks:
+  public_shared_network:
+    external: true

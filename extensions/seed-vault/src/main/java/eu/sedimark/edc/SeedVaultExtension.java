@@ -81,7 +81,7 @@ public class SeedVaultExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        context.getMonitor().withPrefix("SEDIMARK").warning("Seed-Vaukt extension is just used for DEV purposes, DON'T USE THIS IN PRODUCTION!!.");
+        context.getMonitor().withPrefix("SEDIMARK").warning("Seed-Vault extension is just used for DEV purposes, DON'T USE THIS IN PRODUCTION!!.");
 
         vault.storeSecret("public-key", PUBLIC_KEY);
         vault.storeSecret("private-key", PRIVATE_KEY);
