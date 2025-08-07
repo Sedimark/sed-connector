@@ -27,12 +27,14 @@ if [ ${#action[@]} -eq 0 ]; then
   usage
 fi
 
-base_interpolation_env_file="./deployment/assets/env/base_interpolation.env"
-compose_file="./deployment/docker-compose.mvm.yml"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+base_interpolation_env_file="$SCRIPT_DIR/deployment/assets/env/base_interpolation.env"
+compose_file="$SCRIPT_DIR/deployment/docker-compose.mvm.yml"
 
 if [ -n "$node" ]; then
-  override_env_file="./deployment/overrides/${node}.env"
-  override_file="./deployment/overrides/${node}.override.yml"
+  override_env_file="$SCRIPT_DIR/deployment/overrides/${node}.env"
+  override_file="$SCRIPT_DIR/deployment/overrides/${node}.override.yml"
 
   missing_files=()
   [ ! -f "$base_interpolation_env_file" ] && missing_files+=("$base_interpolation_env_file")

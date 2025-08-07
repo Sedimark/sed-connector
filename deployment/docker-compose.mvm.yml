@@ -48,13 +48,14 @@ services:
 #      - ./assets/env/participant_persistence.env # Not needed, injected by docker-compose.yml
       - ./assets/env/participant_connector.env
     environment:
+      SED_PARTICIPANT_ID:
       EDC_DATASOURCE_DEFAULT_URL: jdbc:postgresql://participant-postgres:5432/${SED_PERSISTENCE_CONNECTOR_DATABASE}
       EDC_DATASOURCE_DEFAULT_USER: ${SED_PERSISTENCE_CONNECTOR_USER}
       EDC_DATASOURCE_DEFAULT_PASSWORD: ${SED_PERSISTENCE_CONNECTOR_PASSWORD}
       EDC_SQL_SCHEMA_AUTOCREATE: true
       LOG_LEVEL: debug
     healthcheck:
-      test: ["CMD", "curl", "--fail http://localhost:$$WEB_HTTP_PORT$$WEB_HTTP_PATH}/check/health"]
+      test: ["CMD", "curl", "--fail", "http://localhost:18181/api/check/health"]
       start_period: 30s
       timeout: 5s
       interval: 5s
@@ -87,7 +88,7 @@ services:
       EDC_SQL_SCHEMA_AUTOCREATE: true
 #      LOG_LEVEL: debug
     healthcheck:
-      test: ["CMD", "curl", "--fail http://localhost:$$WEB_HTTP_PORT$$WEB_HTTP_PATH/check/health"]
+      test: ["CMD", "curl", "--fail", "http://localhost:18181/api/check/health"]
       start_period: 30s
       timeout: 5s
       interval: 5s
