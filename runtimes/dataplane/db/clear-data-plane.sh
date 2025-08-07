@@ -8,4 +8,4 @@ PGPASSWORD="$EDC_DATASOURCE_DEFAULT_PASSWORD" psql \
   --port="$EDC_DATASOURCE_DEFAULT_PORT" \
   --username="$EDC_DATASOURCE_DEFAULT_USER" \
   --dbname="$EDC_DATASOURCE_DEFAULT_DATABASE" \
-  --command "DELETE FROM edc_data_plane WHERE destination IS NULL;"
+  --command "DO \$\$ BEGIN IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'edc_data_plane') THEN EXECUTE 'DELETE FROM edc_data_plane WHERE destination IS NULL;'; END IF; END \$\$;"
