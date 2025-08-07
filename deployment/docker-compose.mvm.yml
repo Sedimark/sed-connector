@@ -156,7 +156,6 @@ services:
 
 networks:
   participant_network:
-    name: sedimark-toolbox-mvm
     ipam:
       driver: default
       config:
