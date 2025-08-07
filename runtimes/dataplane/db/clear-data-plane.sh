@@ -1,11 +1,11 @@
 #!/bin/sh
 set -e
 
-echo "Clearing hanging data plane entries..."
+echo "Clearing dangling data plane entries..."
 
-PGPASSWORD="$SED_PERSISTENCE_CONNECTOR_PASSWORD" psql \
-  --host="$SED_PERSISTENCE_CONNECTOR_HOST" \
-  --port="$SED_PERSISTENCE_CONNECTOR_PORT" \
-  --username="$SED_PERSISTENCE_CONNECTOR_USER" \
-  --dbname="$SED_PERSISTENCE_CONNECTOR_DATABASE" \
+PGPASSWORD="$EDC_DATASOURCE_DEFAULT_PASSWORD" psql \
+  --host="$EDC_DATASOURCE_DEFAULT_HOST" \
+  --port="$EDC_DATASOURCE_DEFAULT_PORT" \
+  --username="$EDC_DATASOURCE_DEFAULT_USER" \
+  --dbname="$EDC_DATASOURCE_DEFAULT_DATABASE" \
   --command "DELETE FROM edc_data_plane WHERE destination IS NULL;"

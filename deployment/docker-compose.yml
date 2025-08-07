@@ -8,4 +8,4 @@
 include:
   - path: docker-compose.mvm.yml
     env_file:
-      - assets/env/base_interpolation.env
+      - assets/env/global.env

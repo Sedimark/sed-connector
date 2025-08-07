@@ -29,7 +29,7 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-base_interpolation_env_file="$SCRIPT_DIR/deployment/assets/env/base_interpolation.env"
+global_env_file="$SCRIPT_DIR/deployment/assets/env/global.env"
 compose_file="$SCRIPT_DIR/deployment/docker-compose.mvm.yml"
 
 if [ -n "$node" ]; then
@@ -37,7 +37,7 @@ if [ -n "$node" ]; then
   override_file="$SCRIPT_DIR/deployment/overrides/${node}.override.yml"
 
   missing_files=()
-  [ ! -f "$base_interpolation_env_file" ] && missing_files+=("$base_interpolation_env_file")
+  [ ! -f "$global_env_file" ] && missing_files+=("$global_env_file")
   [ ! -f "$override_env_file" ] && missing_files+=("$override_env_file")
   [ ! -f "$override_file" ] && missing_files+=("$override_file")
   [ ! -f "$compose_file" ] && missing_files+=("$compose_file")
@@ -50,21 +50,22 @@ if [ -n "$node" ]; then
     exit 1
   fi
 
-  docker compose --env-file "$base_interpolation_env_file" --env-file "$override_env_file" -f "$compose_file" -f "$override_file" "${action[@]}"
+  docker network inspect sed_public_shared_network >/dev/null 2>&1 || docker network create --subnet=192.168.23.0/24 sed_public_shared_network
+  docker compose --env-file "$global_env_file" --env-file "$override_env_file" -f "$compose_file" -f "$override_file" "${action[@]}"
 else
-  if [ ! -f "$base_interpolation_env_file" ] || [ ! -f "$compose_file" ]; then
+  if [ ! -f "$global_env_file" ] || [ ! -f "$compose_file" ]; then
     echo "Error: Missing required files:"
-    [ ! -f "$base_interpolation_env_file" ] && echo "  - $base_interpolation_env_file"
+    [ ! -f "$global_env_file" ] && echo "  - $global_env_file"
     [ ! -f "$compose_file" ] && echo "  - $compose_file"
     exit 1
   fi
 
-  docker compose --env-file "$base_interpolation_env_file" -f "$compose_file" "${action[@]}"
+  docker compose --env-file "$global_env_file" -f "$compose_file" "${action[@]}"
 fi
 
 #(
 #  set -a
-#  source "$base_interpolation_env_file"
+#  source "$global_env_file"
 #  source "$override_env_file"
 #  set +a
 #  docker compose -f "$compose_file" -f "$override_file" "${action[@]}"
