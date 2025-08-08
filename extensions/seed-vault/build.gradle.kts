@@ -9,6 +9,7 @@
  *
  *  Contributors:
  *       Pablo Sotres (UC)
+ *       Víctor González (UC)
  */
 
 plugins {
@@ -17,6 +18,8 @@ plugins {
 
 dependencies {
     implementation(libs.edc.spi.core)
+    implementation(libs.ext.bouncycastle.bcpkixJdk18on)
+    implementation(libs.ext.bouncycastle.bcprovJdk18on)
 }
 
 edcBuild {
