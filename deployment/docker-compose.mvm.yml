@@ -3,15 +3,15 @@ name: participant
 services:
 
   participant-dlt-booth:
-    image: ghcr.io/sedimark/dlt-booth:latest
+    image: ghcr.io/sedimark/dlt-booth:dev
     restart: unless-stopped
     depends_on:
       participant-postgres:
         condition: service_healthy
     ports:
-      - "${SED_DLT_BOOTH_EXTERNAL_PORT:-8085}:8085"
+      - "${SED_DLT_BOOTH_EXTERNAL_PORT:-8085}:8085" # DLT Booth API, exposed for local client applications
     env_file:
-#      - ./assets/env/participant_persistence.env # Not needed, injected by docker-compose.yml
+#      - ./assets/env/global.env # Needs to be injected by --env-file cli param or docker-compose.yml
       - ./assets/env/participant_dltbooth.env
       - ./assets/env/sed_baseline_infrastructure.env
     environment:
@@ -34,26 +34,27 @@ services:
 
 
   participant-connector-controlplane:
-    image: ghcr.io/sedimark/sed-conn-controlplane:0.1
+    image: ghcr.io/sedimark/sed-conn-controlplane:0.5
     pull_policy: never
     depends_on:
       participant-postgres:
         condition: service_healthy
     ports:
-      - "${SED_CONN_CP_EXTERNAL_MANAGEMENT_PORT:-8181}:8181"
-      - "${SED_CONN_CP_EXTERNAL_CONTROL_PORT:-9191}:9191"
-      - "${SED_CONN_CP_EXTERNAL_VERSION_PORT:-7171}:7171"
-      - "${SED_CONN_CP_EXTERNAL_DSP_PORT:-8282}:8282"
+      - "${SED_CONN_CP_EXTERNAL_MANAGEMENT_PORT:-8181}:8181" # Management API, exposed for local client applications
+      - "${SED_CONN_CP_EXTERNAL_CONTROL_PORT:-9191}:9191" # Control API, exposed for debugging purposes
+      - "${SED_CONN_CP_EXTERNAL_VERSION_PORT:-7171}:7171" # Version API, exposed for debugging purposes
+      - "${SED_CONN_CP_EXTERNAL_DSP_PORT:-8282}:8282" # Data Space Protocol API, has to be publicly accessible
     env_file:
-#      - ./assets/env/participant_persistence.env # Not needed, injected by docker-compose.yml
+#      - ./assets/env/global.env # Needs to be injected by --env-file cli param or docker-compose.yml
       - ./assets/env/participant_connector.env
     environment:
+      EDC_HOSTNAME: participant-connector-controlplane
       EDC_DATASOURCE_DEFAULT_URL: jdbc:postgresql://participant-postgres:5432/${SED_PERSISTENCE_CONNECTOR_DATABASE}
       EDC_DATASOURCE_DEFAULT_USER: ${SED_PERSISTENCE_CONNECTOR_USER}
       EDC_DATASOURCE_DEFAULT_PASSWORD: ${SED_PERSISTENCE_CONNECTOR_PASSWORD}
       EDC_SQL_SCHEMA_AUTOCREATE: true
       SED_PARTICIPANT_ID:
-      LOG_LEVEL: debug
+      LOG_LEVEL: info
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:18181/api/check/health"]
       start_period: 30s
@@ -71,17 +72,19 @@ services:
 
 
   participant-connector-dataplane:
-    image: ghcr.io/sedimark/sed-conn-dataplane:0.1
+    image: ghcr.io/sedimark/sed-conn-dataplane:0.5
     pull_policy: never
     depends_on:
       participant-postgres:
         condition: service_healthy
     ports:
-      - "${SED_CONN_DP_EXTERNAL_API_PORT:-8185}:8185"
+      - "${SED_CONN_DP_EXTERNAL_API_PORT:-8185}:8185" # Data Plane API, must be publicly accessible
+      - "${SED_CONN_DP_EXTERNAL_CONTROL_PORT:-9192}:9191" # Control API, exposed for debugging purposes
     env_file:
-#      - ./assets/env/participant_persistence.env # Not needed, injected by docker-compose.yml
+#      - ./assets/env/global.env # Needs to be injected by --env-file cli param or docker-compose.yml
       - ./assets/env/participant_connector.env
     environment:
+      EDC_HOSTNAME: participant-connector-dataplane
       EDC_DATASOURCE_DEFAULT_URL: jdbc:postgresql://participant-postgres:5432/${SED_PERSISTENCE_CONNECTOR_DATABASE}
       EDC_DATASOURCE_DEFAULT_USER: ${SED_PERSISTENCE_CONNECTOR_USER}
       EDC_DATASOURCE_DEFAULT_PASSWORD: ${SED_PERSISTENCE_CONNECTOR_PASSWORD}
@@ -90,7 +93,7 @@ services:
       EDC_DATASOURCE_DEFAULT_DATABASE: ${SED_PERSISTENCE_CONNECTOR_DATABASE}
       EDC_DATASOURCE_DEFAULT_HOST: participant-postgres
       EDC_DATASOURCE_DEFAULT_PORT: 5432
-#      LOG_LEVEL: debug
+      LOG_LEVEL: info
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:18181/api/check/health"]
       start_period: 30s
@@ -127,6 +130,8 @@ services:
 
   participant-postgres:
     image: postgres:alpine
+#    env_file:
+#      - ./assets/env/global.env # Needs to be injected by --env-file cli param or docker-compose.yml
     environment:
       POSTGRES_DB: ${SED_PERSISTENCE_POSTGRES_DB:-postgres}
       POSTGRES_USER: ${SED_PERSISTENCE_POSTGRES_USER:-postgres}

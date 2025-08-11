@@ -49,8 +49,6 @@ public class SeedVaultExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        context.getMonitor().withPrefix("SEDIMARK").warning("Seed-Vault extension is just used for DEV purposes, DON'T USE THIS IN PRODUCTION!!.");
-
         try {
             // Add BouncyCastle as security provider
             Security.addProvider(new BouncyCastleProvider());
@@ -59,7 +57,7 @@ public class SeedVaultExtension implements ServiceExtension {
             KeyPair keyPair = generateKeyPair();
             
             // Generate self-signed certificate
-            X509Certificate certificate = generateSelfSignedCertificate(keyPair);
+            X509Certificate certificate = generateSelfSignedCertificate(keyPair, context.getParticipantId());
             
             // Convert to PEM format
             String certificatePem = convertCertificateToPem(certificate);
@@ -69,7 +67,7 @@ public class SeedVaultExtension implements ServiceExtension {
             vault.storeSecret("public-key", certificatePem);
             vault.storeSecret("private-key", privateKeyPem);
             
-            context.getMonitor().withPrefix("SEDIMARK").info("Successfully generated and stored new key pair and certificate");
+            context.getMonitor().withPrefix("SEDIMARK").debug(String.format("Completed key provisioning for identity [%s]; ready for secure token issuance and verification.", context.getParticipantId()));
             
         } catch (Exception e) {
             context.getMonitor().withPrefix("SEDIMARK").severe("Failed to generate keys: " + e.getMessage(), e);
@@ -83,10 +81,10 @@ public class SeedVaultExtension implements ServiceExtension {
         return keyGen.generateKeyPair();
     }
 
-    private X509Certificate generateSelfSignedCertificate(KeyPair keyPair) 
+    private X509Certificate generateSelfSignedCertificate(KeyPair keyPair, String participantId)
             throws OperatorCreationException, CertificateException {
         
-        X500Name subject = new X500Name("CN=SEDIMARK Project, O=SEDIMARK, C=EU");
+        X500Name subject = new X500Name(String.format("CN=%s, O=SEDIMARK Project, C=EU", participantId));
         BigInteger serialNumber = BigInteger.valueOf(System.currentTimeMillis());
         Date notBefore = new Date();
         Date notAfter = new Date(System.currentTimeMillis() + (365L * 24 * 60 * 60 * 1000)); // 1 year
