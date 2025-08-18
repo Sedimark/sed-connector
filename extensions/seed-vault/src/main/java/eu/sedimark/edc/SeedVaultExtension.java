@@ -68,7 +68,10 @@ public class SeedVaultExtension implements ServiceExtension {
             vault.storeSecret("private-key", privateKeyPem);
             
             context.getMonitor().withPrefix("SEDIMARK").debug(String.format("Completed key provisioning for identity [%s]; ready for secure token issuance and verification.", context.getParticipantId()));
-            
+
+            vault.storeSecret("accessKeyId", "consumer");
+            vault.storeSecret("secretAccessKey", "passwordc");
+
         } catch (Exception e) {
             context.getMonitor().withPrefix("SEDIMARK").severe("Failed to generate keys: " + e.getMessage(), e);
             throw new RuntimeException("Failed to initialize SeedVaultExtension", e);

@@ -19,6 +19,8 @@ services:
   participant-connector-dataplane:
     environment:
       LOG_LEVEL: info
+      EDC_AWS_ACCESS_KEY: "$SED_CONN_AWS_ACCESS_KEY"
+      EDC_AWS_SECRET_ACCESS_KEY: "$SED_CONN_AWS_SECRET_ACCESS_KEY"
     networks:
       participant_network:
         ipv4_address: "${SUBNET_PREFIX}.11"

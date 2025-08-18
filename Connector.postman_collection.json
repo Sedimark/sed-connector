@@ -1,0 +1,1119 @@
+{
+	"info": {
+		"_postman_id": "521089da-a17a-4117-a132-ca1be7a1be1f",
+		"name": "Connector",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14132606",
+		"_collection_link": "https://restless-crescent-239815.postman.co/workspace/V%C3%ADctor~57490a91-6eaa-4418-8f75-da33525dbc9b/collection/14132606-521089da-a17a-4117-a132-ca1be7a1be1f?action=share&source=collection_link&creator=14132606"
+	},
+	"item": [
+		{
+			"name": "Consumer",
+			"item": [
+				{
+					"name": "Negotiation",
+					"item": [
+						{
+							"name": "Listing",
+							"item": [
+								{
+									"name": "List contract negotiations",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 10,\r\n  \"sortOrder\": \"DESC\",\r\n  \"sortField\": \"createdAt\",\r\n  \"filterExpression\": [{\r\n    \"operandLeft\": \"state\",\r\n    \"operator\": \"=\",\r\n    \"operandRight\": 1200 }]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CONSUMER_MNG_URL}}/v3/contractnegotiations/request",
+											"host": [
+												"{{CONSUMER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"contractnegotiations",
+												"request"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List contract agreements",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 10,\r\n  \"sortOrder\": \"DESC\",\r\n  \"sortField\": \"contractSigningDate\",\r\n  \"filterExpression\": [{\r\n    \"@context\": { \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\" },\r\n    \"@type\": \"Criterion\",\r\n    \"operandLeft\": \"assetId\",\r\n    \"operator\": \"=\",\r\n    \"operandRight\": \"http://uc.sedimark.eu/offerings/e04a8721-1bb1-435b-899b-79f172b966d9/assets/2a91cf0c-c123-4a16-8d03-f266bfbce05d\" }]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CONSUMER_MNG_URL}}/v3/contractagreements/request",
+											"host": [
+												"{{CONSUMER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"contractagreements",
+												"request"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List dataplanes",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CONSUMER_MNG_URL}}/v3/dataplanes",
+											"host": [
+												"{{CONSUMER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"dataplanes"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Fetch catalog",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "password",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"counterPartyAddress\": \"{{PROVIDER_PROTO_URL}}\",\r\n  \"protocol\": \"dataspace-protocol-http\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/catalog/request",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"catalog",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch dataset",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "password",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"DatasetRequest\",\r\n  \"@id\": \"minIOAsset\",\r\n  \"counterPartyAddress\": \"{{PROVIDER_PROTO_URL}}\",\r\n  \"protocol\": \"dataspace-protocol-http\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/catalog/dataset/request",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"catalog",
+										"dataset",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Negotiate contract",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"ContractRequest\",\r\n  \"counterPartyAddress\": \"{{PROVIDER_PROTO_URL}}\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n  \"policy\": {\r\n    \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\r\n    \"@id\": \"{{contract_offer_id}}\", // contract-offer-id found in dcat:dataset.odrl:hasPolicy.@id\r\n    \"@type\": \"Offer\",\r\n    \"assigner\": \"provider\",\r\n    \"target\": \"minIOAsset\"\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/contractnegotiations",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"contractnegotiations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get contract agreement ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"disabledSystemHeaders": {
+									"content-type": true,
+									"content-length": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "password",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// ID is in the response to \"Negotiate contract\"\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/contractnegotiations/{{contract_negotiation_id}}",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"contractnegotiations",
+										"{{contract_negotiation_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Consumer Pull",
+					"item": [
+						{
+							"name": "Listing",
+							"item": [
+								{
+									"name": "List transfer processes",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 10,\r\n  \"sortOrder\": \"DESC\",\r\n  \"sortField\": \"stateTimestamp\",\r\n  \"filterExpression\": [{\r\n    \"@context\": { \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\" },\r\n    \"@type\": \"Criterion\",\r\n    \"operandLeft\": \"assetId\",\r\n    \"operator\": \"!=\",\r\n    \"operandRight\": \"<asset-id>\" }]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CONSUMER_MNG_URL}}/v3/transferprocesses/request",
+											"host": [
+												"{{CONSUMER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"transferprocesses",
+												"request"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List EDRs",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true,
+											"content-length": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 10,\r\n  \"sortOrder\": \"DESC\",\r\n  \"sortField\": \"createdAt\",\r\n  \"filterExpression\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CONSUMER_MNG_URL}}/v3/edrs/request",
+											"host": [
+												"{{CONSUMER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"edrs",
+												"request"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Start transfer",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"TransferRequestDto\",\r\n  \"connectorId\": \"provider\",\r\n  \"counterPartyAddress\": \"{{PROVIDER_PROTO_URL}}\",\r\n  \"contractId\": \"{{contract_agreement_id}}\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n  \"transferType\": \"HttpData-PULL\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/transferprocesses",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"transferprocesses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get transfer ID status",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"disabledSystemHeaders": {
+									"content-type": true,
+									"content-length": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "password",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// ID is in the response to \"Start transfer\"\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/transferprocesses/{{transfer_process_id}}",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"transferprocesses",
+										"{{transfer_process_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get EDR",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"disabledSystemHeaders": {
+									"content-type": true,
+									"content-length": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/edrs/{{transfer_process_id}}/dataaddress",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"edrs",
+										"{{transfer_process_id}}",
+										"dataaddress"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get data",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"disabledSystemHeaders": {
+									"content-type": true,
+									"content-length": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{auth_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/ld+json",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// Since we configured the `HttpData` with `proxyPath`, we could also ask for a specific user with: {{PROVIDER_PUB_URL}}/1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_PUB_URL}}",
+									"host": [
+										"{{PROVIDER_PUB_URL}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get data NGSI-LD",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"disabledSystemHeaders": {
+									"content-type": true,
+									"content-length": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{auth_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/ld+json",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// Since we configured the `HttpData` with `proxyPath`, we could also ask for a specific user with: {{PROVIDER_PUB_URL}}/1\r\n{\r\n\"type\": \"Query\",\r\n\"entities\": [\r\n    {\"idPattern\": \".*\"} ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_PUB_URL}}/entities?type=https://smartdatamodels.org/dataModel.ERA/Vehicle&limit=3",
+									"host": [
+										"{{PROVIDER_PUB_URL}}"
+									],
+									"path": [
+										"entities"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "https://smartdatamodels.org/dataModel.ERA/Vehicle"
+										},
+										{
+											"key": "limit",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get data Shamrock",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{auth_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/protobuf",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{PROVIDER_PUB_URL}}/api/v0/fleet/check_status",
+									"host": [
+										"{{PROVIDER_PUB_URL}}"
+									],
+									"path": [
+										"api",
+										"v0",
+										"fleet",
+										"check_status"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Provider Push",
+					"item": [
+						{
+							"name": "Start transfer (REST)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"TransferRequestDto\",\r\n  \"connectorId\": \"provider\",\r\n  \"counterPartyAddress\": \"{{PROVIDER_PROTO_URL}}\",\r\n  \"contractId\": \"{{contract_agreement_id}}\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n  \"transferType\": \"HttpData-PUSH\",\r\n  \"dataDestination\": {\r\n    \"type\": \"HttpData\",\r\n    \"baseUrl\": \"https://webhook.site/234ec08d-624a-477f-8b0a-4b2e998e9e16\"\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/transferprocesses",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"transferprocesses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start transfer (S3)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"TransferRequestDto\",\r\n  \"connectorId\": \"provider\",\r\n  \"counterPartyAddress\": \"{{PROVIDER_PROTO_URL}}\",\r\n  \"contractId\": \"{{contract_agreement_id}}\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n  \"transferType\": \"AmazonS3-PUSH\",\r\n  \"dataDestination\": {\r\n    \"type\": \"AmazonS3\",\r\n    \"region\": \"eu-west-1\",\r\n    \"bucketName\": \"dst-bucket\",\r\n    \"objectName\": \"model.h5\",\r\n    \"endpointOverride\": \"http://localhost:9000\"\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CONSUMER_MNG_URL}}/v3/transferprocesses",
+									"host": [
+										"{{CONSUMER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"transferprocesses"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Provider",
+			"item": [
+				{
+					"name": "Registration",
+					"item": [
+						{
+							"name": "Listing",
+							"item": [
+								{
+									"name": "List assets",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 5,\r\n  \"sortOrder\": \"ASC\",\r\n  \"sortField\": \"https://w3id.org/edc/v0.0.1/ns/id\",\r\n  \"filterExpression\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{PROVIDER_MNG_URL}}/v3/assets/request",
+											"host": [
+												"{{PROVIDER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"assets",
+												"request"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List policies",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 3,\r\n  \"sortOrder\": \"DESC\",\r\n  \"sortField\": \"createdAt\",\r\n  \"filterExpression\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{PROVIDER_MNG_URL}}/v3/policydefinitions/request",
+											"host": [
+												"{{PROVIDER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"policydefinitions",
+												"request"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List contract definitions",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"QuerySpec\",\r\n  \"offset\": 0,\r\n  \"limit\": 3,\r\n  \"filterExpression\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{PROVIDER_MNG_URL}}/v3/contractdefinitions/request",
+											"host": [
+												"{{PROVIDER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"contractdefinitions",
+												"request"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List dataplanes",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{PROVIDER_MNG_URL}}/v3/dataplanes",
+											"host": [
+												"{{PROVIDER_MNG_URL}}"
+											],
+											"path": [
+												"v3",
+												"dataplanes"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Create asset",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\": \"assetId\",\r\n  \"properties\": {\r\n    \"name\": \"product description\",\r\n    \"contenttype\": \"application/json\"\r\n  },\r\n  \"dataAddress\": {\r\n    \"type\": \"HttpData\",\r\n    \"name\": \"Test asset\",\r\n    \"baseUrl\": \"https://jsonplaceholder.typicode.com/users\",\r\n    \"proxyPath\": \"true\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/assets/",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"assets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create asset (new)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"properties\" : {\r\n    \"contenttype\" : \"application/json\"\r\n  },\r\n  \"dataAddress\" : {\r\n    \"type\" : \"HttpData\",\r\n    \"baseUrl\" : \"http://provider-domain-private-endpoint\"\r\n  },\r\n  \"@context\" : {\r\n    \"@vocab\" : \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\" : \"http://uc.sedimark.eu/offerings/e04a8721-1bb1-435b-899b-79f172b966d9/assets/2a91cf0c-c123-4a16-8d03-f266bfbce05d\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/assets/",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"assets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create asset NGSI-LD unlocked",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\": \"assetId\",\r\n  \"properties\": {\r\n    \"name\": \"product description\",\r\n    \"contenttype\": \"application/json\"\r\n  },\r\n  \"dataAddress\": {\r\n    \"type\": \"HttpData\",\r\n    \"name\": \"Test asset\",\r\n    \"baseUrl\": \"http://context-broker.tlmat.sedimark.eu:9090/ngsi-ld/v1\",\r\n    \"proxyPath\": \"true\",\r\n    \"header:Accept\": \"application/ld+json\",\r\n    \"proxyQueryParams\": \"true\",\r\n    \"proxyBody\": \"true\",\r\n    \"proxyMethod\": \"true\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/assets",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"assets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create asset NGSI-LD locked",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\": \"assetId\",\r\n  \"properties\": {\r\n    \"name\": \"product description\",\r\n    \"contenttype\": \"application/json\"\r\n  },\r\n  \"dataAddress\": {\r\n    \"type\": \"HttpData\",\r\n    \"name\": \"Test asset\",\r\n    \"baseUrl\": \"http://context-broker.tlmat.sedimark.eu:9090/ngsi-ld/v1/entities/?type=Vehicle\",\r\n    \"header:Accept\": \"application/ld+json\",\r\n    \"header:Link\": \"<https://raw.githubusercontent.com/smart-data-models/dataModel.ERA/master/context.jsonld>;rel=\\\"http://www.w3.org/ns/json-ld#context\\\";type=\\\"application/ld+json\\\"\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/assets",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"assets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create asset MinIO",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\": \"minIOAsset\",\r\n  \"properties\": {\r\n    \"name\": \"product description\",\r\n    \"contenttype\": \"application/json\",\r\n    \"offeringType\": \"AIModelOffering\"\r\n  },\r\n  \"dataAddress\": {\r\n    \"type\": \"HttpData\",\r\n    \"name\": \"Test asset\",\r\n    \"baseUrl\": \"http://localhost:9001/api/v1/download-shared-object/aHR0cDovLzEyNy4wLjAuMTo5MDAwL3NyYy1idWNrZXQvbW9kZWwuaDU_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD0yWE5WUUhTSVVETTQ4QzlaVjlBUCUyRjIwMjUwODE0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDgxNFQwODE4MjVaJlgtQW16LUV4cGlyZXM9NDMyMDAmWC1BbXotU2VjdXJpdHktVG9rZW49ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmhZMk5sYzNOTFpYa2lPaUl5V0U1V1VVaFRTVlZFVFRRNFF6bGFWamxCVUNJc0ltVjRjQ0k2TVRjMU5USXdNalk1TlN3aWNHRnlaVzUwSWpvaWNISnZkbWxrWlhJaWZRLmVZNE5iWEJ1MUM4SkQ5dzlzdzktU1pObXVNNTg1TnFJdWhIMFNuTGlqS3loT1JQdkJUb0dKaWJDR3FXU1ZZRDFzVE9FNVVFd01UQ1ZRZ2NibGRPU05RJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZ2ZXJzaW9uSWQ9bnVsbCZYLUFtei1TaWduYXR1cmU9MmE5ZmU1ZGM0ZjJjMmY1OTAxMDcxYTRmNzI3ZGQ4MmNiOTUwOWFlYjZlZGM4MGZiZGU2YzZjM2ZkNDMzNTU0OA\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/assets/",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"assets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create asset FL",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\": \"assetFL\",\r\n  \"properties\": {\r\n    \"name\": \"product description\",\r\n    \"contenttype\": \"application/json\",\r\n    \"offeringType\": \"FLOffering\"\r\n  },\r\n  \"dataAddress\": {\r\n    \"type\": \"HttpData\",\r\n    \"name\": \"Test asset\",\r\n    \"baseUrl\": \"http://172.21.0.1:80\",\r\n    \"proxyPath\": \"true\",\r\n    \"header:Accept\": \"*/*\",\r\n    \"proxyQueryParams\": \"true\",\r\n    \"proxyBody\": \"true\",\r\n    \"proxyMethod\": \"true\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/assets",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"assets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create policy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"policy\" : {\r\n    \"permission\" : [ ],\r\n    \"prohibition\" : [ ],\r\n    \"obligation\" : [ ],\r\n    \"@context\" : \"http://www.w3.org/ns/odrl.jsonld\",\r\n    \"@type\" : \"Set\"\r\n  },\r\n  \"@context\" : {\r\n    \"odrl\" : \"http://www.w3.org/ns/odrl/2/\",\r\n    \"@vocab\" : \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\" : \"policyId\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/policydefinitions",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"policydefinitions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create policy (new)",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"policy\" : {\r\n    \"permission\" : [ {\r\n      \"odrl:target\" : \"http://uc.sedimark.eu/offerings/e04a8721-1bb1-435b-899b-79f172b966d9\",\r\n      \"odrl:assigner\" : \"did:iota:lnk:0xf053682e4724ba221e2f49dd0adabba135cd4ccb08d492440e163482064b617a\",\r\n      \"odrl:action\" : \"odrl:use\",\r\n      \"odrl:constraint\" : [ {\r\n        \"odrl:leftOperand\" : \"odrl:dateTime\",\r\n        \"odrl:operator\" : {\r\n          \"@id\" : \"odrl:lteq\"\r\n        },\r\n        \"odrl:rightOperand\" : {\r\n          \"@type\" : \"xsd:dateTime\",\r\n          \"@value\" : \"2025-12-31T00:00:00Z\"\r\n        }\r\n      }, {\r\n        \"odrl:leftOperand\" : \"odrl:dateTime\",\r\n        \"odrl:operator\" : {\r\n          \"@id\" : \"odrl:gteq\"\r\n        },\r\n        \"odrl:rightOperand\" : {\r\n          \"@type\" : \"xsd:dateTime\",\r\n          \"@value\" : \"2025-08-31T00:00:00Z\"\r\n        }\r\n      }, {\r\n        \"odrl:leftOperand\" : \"sedi:claimMemberOf\",\r\n        \"odrl:operator\" : {\r\n          \"@id\" : \"odrl:eq\"\r\n        },\r\n        \"odrl:rightOperand\" : \"SEDIMARK marketplace\"\r\n      }, {\r\n        \"odrl:leftOperand\" : \"sedi:dataTokenOwnership\",\r\n        \"odrl:operator\" : {\r\n          \"@id\" : \"odrl:eq\"\r\n        },\r\n        \"odrl:rightOperand\" : \"true\"\r\n      } ],\r\n      \"odrl:duty\" : [ {\r\n        \"odrl:action\" : [ {\r\n          \"odrl:refinement\" : [ {\r\n            \"odrl:leftOperand\" : \"odrl:payAmount\",\r\n            \"odrl:operator\" : {\r\n              \"@id\" : \"odrl:eq\"\r\n            },\r\n            \"odrl:rightOperand\" : {\r\n              \"@type\" : \"xsd:decimal\",\r\n              \"@value\" : \"1\"\r\n            },\r\n            \"odrl:unit\" : \"sedi:nativeToken\"\r\n          } ],\r\n          \"odrl:action\" : \"sedi:purchaseDataToken\"\r\n        } ],\r\n        \"odrl:constraint\" : [ {\r\n          \"odrl:leftOperand\" : \"odrl:event\",\r\n          \"odrl:operator\" : {\r\n            \"@id\" : \"odrl:lt\"\r\n          },\r\n          \"odrl:rightOperand\" : \"sedi:dspContractAgreementFinalized\"\r\n        } ]\r\n      } ]\r\n    } ],\r\n    \"prohibition\" : [ ],\r\n    \"obligation\" : [ ],\r\n    \"@type\" : \"odrl:Set\"\r\n  },\r\n  \"@context\" : {\r\n    \"sedi\" : \"https://w3id.org/sedimark/ontology#\",\r\n    \"odrl\" : \"http://www.w3.org/ns/odrl/2/\",\r\n    \"@vocab\" : \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\" : \"http://uc.sedimark.eu/offerings/e04a8721-1bb1-435b-899b-79f172b966d9/offeringContract/8ea15e35-4234-44c7-830f-521d1cba7e2a\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/policydefinitions",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"policydefinitions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create contract definition",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\": \"contractId\",\r\n  \"accessPolicyId\": \"policyId\",\r\n  \"contractPolicyId\": \"policyId\",\r\n  \"assetsSelector\": [ {\r\n    \"operandLeft\" : \"id\",\r\n    \"operandRight\" : \"minIOAsset\",\r\n    \"operator\" : \"=\",\r\n    \"@type\" : \"Criterion\"\r\n  } ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/contractdefinitions",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"contractdefinitions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create contract definition (new)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"accessPolicyId\" : \"http://uc.sedimark.eu/offerings/e04a8721-1bb1-435b-899b-79f172b966d9/offeringContract/8ea15e35-4234-44c7-830f-521d1cba7e2a\",\r\n  \"contractPolicyId\" : \"http://uc.sedimark.eu/offerings/e04a8721-1bb1-435b-899b-79f172b966d9/offeringContract/8ea15e35-4234-44c7-830f-521d1cba7e2a\",\r\n  \"assetsSelector\" : [ {\r\n    \"operandLeft\" : \"id\",\r\n    \"operandRight\" : \"http://uc.sedimark.eu/offerings/e04a8721-1bb1-435b-899b-79f172b966d9/assets/2a91cf0c-c123-4a16-8d03-f266bfbce05d\",\r\n    \"operator\" : \"=\",\r\n    \"@type\" : \"Criterion\"\r\n  } ],\r\n  \"@context\" : {\r\n    \"@vocab\" : \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\" : \"http://uc.sedimark.eu/offerings/e04a8721-1bb1-435b-899b-79f172b966d9/offeringContract/8ea15e35-4234-44c7-830f-521d1cba7e2a\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROVIDER_MNG_URL}}/v3/contractdefinitions",
+									"host": [
+										"{{PROVIDER_MNG_URL}}"
+									],
+									"path": [
+										"v3",
+										"contractdefinitions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CONSUMER_MNG_URL",
+			"value": "http://consumer:28181/api/management",
+			"type": "string"
+		},
+		{
+			"key": "PROVIDER_MNG_URL",
+			"value": "http://provider:18181/api/management",
+			"type": "string"
+		},
+		{
+			"key": "PROVIDER_PROTO_URL",
+			"value": "http://provider-cp:8282/api/dsp",
+			"type": "string"
+		},
+		{
+			"key": "PROVIDER_PUB_URL",
+			"value": "http://provider:18185/api/public",
+			"type": "string"
+		},
+		{
+			"key": "contract_offer_id",
+			"value": "MQ==:M...",
+			"type": "string"
+		},
+		{
+			"key": "contract_negotiation_id",
+			"value": "05a7...",
+			"type": "string"
+		},
+		{
+			"key": "contract_agreement_id",
+			"value": "0d1f...",
+			"type": "string"
+		},
+		{
+			"key": "transfer_process_id",
+			"value": "97e1...",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "eyJra...",
+			"type": "string"
+		}
+	]
+}
